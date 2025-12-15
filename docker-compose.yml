@@ -1,0 +1,35 @@
+
+version: '3.8'
+services:
+  agenda-api:
+    build: .
+    container_name: agenda-api
+    ports:
+      - "9090:8080"    # Porta externa alterada para evitar conflito
+      - "5005:5005"    # Debug remoto
+    depends_on:
+      - mysql-db
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/agenda
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: agenda
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+
