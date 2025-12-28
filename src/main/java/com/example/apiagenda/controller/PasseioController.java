@@ -46,7 +46,18 @@ public class PasseioController {
     public void deletar(@PathVariable Long id) {
         service.deletar(id);
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Passeio> atualizar(@PathVariable Long id, @Valid @RequestBody PasseioDTO dto) {
+        Passeio atualizado = service.atualizar(id, dto);
+        return atualizado != null ? ResponseEntity.ok(atualizado) : ResponseEntity.notFound().build();
+    }
+
+
+
 }
+
 
 
 
